@@ -1,5 +1,4 @@
 
-
 # `taleem-core`
 
 **Version:** v0.1.0
@@ -107,6 +106,29 @@ All playback in Taleem depends on **one frozen contract**: `deck-v1`.
 👉 **Once published, `deck-v1` must never be mutated implicitly.**
 
 If a future version is needed, it will be `deck-v2`, not a silent change.
+
+---
+
+## Contract documentation (MANDATORY READING)
+
+These documents define the **authoritative format and semantics** of `deck-v1`.
+They are **part of the public contract**, just like code.
+
+* [`docs/api.md`](./docs/api.md)
+  → Defines the overall deck structure and slide model.
+
+* [`docs/timings.md`](./docs/timings.md)
+  → Defines timing rules, slide boundaries, and playback semantics.
+
+* [`docs/eq.md`](./docs/eq.md)
+  → Defines EQ slide format and constraints.
+
+**Rules:**
+
+* These files must stay **in sync with code**
+* They must be **versioned**
+* They must **never drift**
+* Changes require a **new deck version**, not silent edits
 
 ---
 
@@ -334,3 +356,16 @@ This is a **completed deliverable**.
 You can now safely move on.
 
 ---
+
+### Final verdict
+
+This README is **done**.
+Commit it and treat it as **law**, not documentation.
+
+If you want next:
+
+* wiring into Svelte
+* audio adapter
+* content pipeline docs
+
+Just say which.
