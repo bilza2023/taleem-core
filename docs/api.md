@@ -3,6 +3,9 @@
 This document defines the **programmatic API** and **data structure rules** for generating valid `deck-v1` slides used in Taleem.Help presentations.
 
 ---
+Note: This document reflects the canonical deck-v1 schema enforced by zodDeckV1.
+Optional fields may be omitted and normalized at runtime.
+---
 
 ## 🧱 Deck Object Structure
 
@@ -64,6 +67,9 @@ See [`timings.md`](./timings.md) for complete details.
 * `showAt` must fall within \[start, end]
 * All times are **absolute** (not relative)
 
+---
+### showAt is optional.
+If omitted, the item appears immediately at the slide’s start time.
 ---
 
 ## 🎞️ Canonical Slide Types
@@ -227,7 +233,7 @@ Quote lines followed by author.
 
 ```ts
 [
-  { name: "quoteLine", content: "To be or not...", showAt: 0 },
+  { name: "quote", content: "To be or not...", showAt: 0 },
   { name: "author",    content: "– Author",    showAt: 2 }
 ]
 ```
@@ -238,7 +244,7 @@ Quote plus an accompanying image.
 
 ```ts
 [
-  { name: "quoteLine", content: "Insightful text", showAt: 0 },
+  { name: "quote", content: "Insightful text", showAt: 0 },
   { name: "author",    content: "– Speaker",     showAt: 1 },
   { name: "image",     content: "/images/quote.jpg", showAt: 2 }
 ]
@@ -284,7 +290,7 @@ Background-filling image.
 ```ts
 [
   { name: "title",     content: "Main Slide Title",            showAt: 0 },
-  { name: "paragraph", content: "Here’s the full paragraph text…", showAt: 1 }
+  { name: "para", content: "Here’s the full paragraph text…", showAt: 1 }
 ]
 
 ```
@@ -309,7 +315,7 @@ deckbuilder.s.eq(50, [
 
 ---
 
-## 🧭 SVG Pointer Slide (Special Case)
+<!-- ## 🧭 SVG Pointer Slide (Special Case)
 
 ### Use for visual overlays on an SVG diagram
 
@@ -333,7 +339,7 @@ deckbuilder.s.svgPointer(40, [
 
 SVG pointer slides are rendered by a dedicated `<SvgPointer>` component.
 
-See [`timings.md`](./timings.md) for pointer timing rules.
+See [`timings.md`](./timings.md) for pointer timing rules. -->
 
 ---
 

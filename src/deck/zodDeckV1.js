@@ -15,7 +15,7 @@ const titleSlide = baseSlide.extend({
     z.object({
       name: z.literal("title"),
       content: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -25,8 +25,8 @@ const titleAndSubtitle = baseSlide.extend({
   type: z.literal("titleAndSubtitle"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("title"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("subtitle"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("title"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("subtitle"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -38,7 +38,7 @@ const bulletList = baseSlide.extend({
     z.object({
       name: z.literal("bullet"),
       content: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -48,9 +48,9 @@ const twoColumnText = baseSlide.extend({
   type: z.literal("twoColumnText"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("title"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("left"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("right"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("title"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("left"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("right"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -59,7 +59,7 @@ const twoColumnText = baseSlide.extend({
 const imageSlide = baseSlide.extend({
   type: z.literal("imageSlide"),
   data: z.array(
-    z.object({ name: z.literal("image"), content: z.string(), showAt: z.number() })
+    z.object({ name: z.literal("image"), content: z.string(), showAt: z.number().optional() })
   )
 });
 
@@ -68,8 +68,8 @@ const imageWithTitle = baseSlide.extend({
   type: z.literal("imageWithTitle"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("image"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("title"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("image"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("title"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -79,8 +79,8 @@ const imageWithCaption = baseSlide.extend({
   type: z.literal("imageWithCaption"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("image"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("caption"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("image"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("caption"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -92,7 +92,7 @@ const imageLeftBulletsRight = baseSlide.extend({
     z.object({
       name: z.union([z.literal("image"), z.literal("bullet")]),
       content: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -104,7 +104,7 @@ const imageRightBulletsLeft = baseSlide.extend({
     z.object({
       name: z.union([z.literal("image"), z.literal("bullet")]),
       content: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -114,8 +114,8 @@ const table = baseSlide.extend({
   type: z.literal("table"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("headers"), content: z.array(z.string()), showAt: z.number() }),
-      z.object({ name: z.literal("rows"), content: z.array(z.array(z.string())), showAt: z.number() })
+      z.object({ name: z.literal("headers"), content: z.array(z.string()), showAt: z.number().optional() }),
+      z.object({ name: z.literal("rows"), content: z.array(z.array(z.string())), showAt: z.number().optional() })
     ])
   )
 });
@@ -125,8 +125,8 @@ const statistic = baseSlide.extend({
   type: z.literal("statistic"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("number"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("label"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("number"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("label"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -138,7 +138,7 @@ const donutChart = baseSlide.extend({
     z.object({
       name: z.union([z.literal("percent"), z.literal("label"), z.literal("color")]),
       content: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -148,8 +148,8 @@ const bigNumber = baseSlide.extend({
   type: z.literal("bigNumber"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("number"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("label"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("number"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("label"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -162,7 +162,7 @@ const barChart = baseSlide.extend({
       name: z.literal("bar"),
       label: z.string(),
       value: z.number(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -172,8 +172,8 @@ const quoteSlide = baseSlide.extend({
   type: z.literal("quoteSlide"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("quoteLine"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("author"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("quote"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("author"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -183,9 +183,9 @@ const quoteWithImage = baseSlide.extend({
   type: z.literal("quoteWithImage"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("quoteLine"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("author"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("image"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("quote"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("author"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("image"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -198,7 +198,7 @@ const cornerWordsSlide = baseSlide.extend({
       name: z.literal("card"),
       icon: z.string(),
       label: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -208,9 +208,9 @@ const contactSlide = baseSlide.extend({
   type: z.literal("contactSlide"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("headline"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("email"), content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("phone"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("headline"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("email"), content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("phone"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
@@ -227,7 +227,7 @@ const eqSlide = baseSlide.extend({
                   z.literal("math")
                ]),
       content: z.string(),
-      showAt:  z.number(),
+      showAt:  z.number().optional(),
       spItems: z.array(
         z.object({
           type:    z.union([
@@ -250,7 +250,7 @@ const fillImage = baseSlide.extend({
     z.object({
       name: z.literal("image"),
       content: z.string(),
-      showAt: z.number()
+      showAt: z.number().optional()
     })
   )
 });
@@ -261,62 +261,12 @@ const titleAndPara = baseSlide.extend({
   type: z.literal("titleAndPara"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("title"),     content: z.string(), showAt: z.number() }),
-      z.object({ name: z.literal("paragraph"), content: z.string(), showAt: z.number() })
+      z.object({ name: z.literal("title"),     content: z.string(), showAt: z.number().optional() }),
+      z.object({ name: z.literal("para"), content: z.string(), showAt: z.number().optional() })
     ])
   )
 });
 
-//////////////////////--->SvgPointer
-// 22 — SVG POINTER SLIDE  (v2: supports window & blink)
-
-const svgPointer = baseSlide.extend({
-  type: z.literal("svgPointer"),
-
-  data: z.array(
-    z.union([
-      /* base SVG image (inline-loaded by the component) */
-      z.object({
-        type:    z.literal("image"),
-        content: z.string(),                // path to .svg file
-        showAt:  z.number().optional()      // default 0
-      }),
-
-      /* pointer overlay primitives */
-      z.object({
-        type:     z.enum(["arrow", "circle", "dot"]),
-        x:        z.number(),
-        y:        z.number(),
-        showAt:   z.number(),
-        duration: z.number().optional()     // defaults inside component
-      }),
-
-      /* NEW — focus rectangle */
-      z.object({
-        type:     z.literal("window"),
-        x:        z.number(),
-        y:        z.number(),
-        width:    z.number(),
-        height:   z.number(),
-        showAt:   z.number(),
-        duration: z.number().optional()
-      }),
-
-      /* NEW — blink an inline-SVG element by id */
-      z.object({
-        type:     z.literal("blink"),
-        targetId: z.string(),
-        rate:     z.number().optional(),    // Hz, default 2
-        showAt:   z.number(),
-        duration: z.number().optional()
-      })
-    ])
-  )
-  /* deck must include exactly one image entry */
-  .refine(arr => arr.filter(d => d.type === "image").length === 1, {
-    message: "svgPointer slide must include exactly one image entry"
-  })
-});
 
 
 //////////////===> Final Deck Object
@@ -338,7 +288,6 @@ export const zodDeckV1 = z.object({
     deck:        z.array(
       z.discriminatedUnion("type", [
         titleAndPara,
-        svgPointer,
         eqSlide,
         fillImage,
         titleSlide,
