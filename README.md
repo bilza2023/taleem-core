@@ -1,134 +1,131 @@
 
+
 # `taleem-core`
 
-**Version:** v0.1.0
-**Status:** STABLE (v1 core)
-**Scope:** Playback + deck logic only
+**Version:** v1 (core frozen)
+**Status:** STABLE
+**Scope:** Deck contracts + validation + core CSS
 **UI:** NONE
+**Playback:** NONE
 **Audio:** NONE
 
 ---
 
 ## Purpose
 
-`taleem-core` is the **UI-agnostic core engine** for Taleem.
+`taleem-core` defines the **foundational contracts** of the Taleem ecosystem.
 
-It contains:
+It exists to answer one question only:
+
+> **“What is a valid Taleem deck?”**
+
+Once this package is trusted, everything else (player, browser, UI, audio, frameworks) can change freely.
+
+---
+
+## What this package contains
+
+`taleem-core` contains **only stable, long-lived definitions**:
 
 * the **deck contract** (`deck-v1`)
 * **deck validation**
-* **playback timing math**
-* a **deterministic clock**
-* **small explicit helpers**
+* **semantic deck inspection helpers**
+* **core visual contract (`taleem.css`)**
 
-It intentionally contains **no UI code**, **no Svelte**, **no audio libraries**, **no fetch**, and **no environment assumptions**.
+It intentionally contains:
 
-If you are reading this in the future:
-👉 **This package exists so you can forget how the internals work and still trust them.**
-
----
-
-## What this package is responsible for
-
-`taleem-core` answers only these questions:
-
-1. Is this deck valid?
-2. Does this deck have the required structure?
-3. Given a time `t`, which slide should be active?
-4. What is the total duration of a deck?
-5. How does time progress in a deterministic way?
-
-That’s it.
+* ❌ no rendering
+* ❌ no playback logic
+* ❌ no timing math
+* ❌ no clocks or timers
+* ❌ no audio logic
+* ❌ no framework code
+* ❌ no environment assumptions
 
 ---
 
-## What this package is NOT responsible for
+## What this package is NOT
 
-`taleem-core` does **NOT** do any of the following:
+`taleem-core` does **not**:
 
-* Rendering slides
-* Styling or themes
-* Background images logic
-* Audio playback (Howler, HTMLAudio, etc.)
-* Fetching files or URLs
-* User state
-* Progress persistence
-* Analytics
-* LMS features
-* Comments / likes / subscriptions
+* render slides
+* decide active slides
+* manage time
+* clamp timestamps
+* sync audio
+* mount DOM
+* apply themes
+* resolve backgrounds
+* fetch files
+* store user state
 
-All of those belong **outside** the core.
-
-If you feel tempted to add them here — stop.
+If something depends on **time**, **DOM**, or **environment** — it does **not** belong here.
 
 ---
 
 ## Architectural position
 
 ```
-CONTENT (HTML + audio)
+Deck JSON (content)
         ↓
    taleem-core
         ↓
- UI / Audio / App layer
+ Player / Browser / App
+        ↓
+        DOM
 ```
 
-`taleem-core` sits **between raw content and UI**.
+`taleem-core` sits **below all runtime systems**.
 
-Everything above it can change.
-Everything below it is immutable content.
+It is designed to be:
 
-This is deliberate.
+* boring
+* stable
+* forgettable
+* trustworthy
 
 ---
 
 ## The Deck Contract (`deck-v1`)
 
-All playback in Taleem depends on **one frozen contract**: `deck-v1`.
+All Taleem playback depends on **one frozen contract**: `deck-v1`.
 
-### Key properties
+### Core properties
 
-* `version` **must** be `"deck-v1"`
+* `version` must be `"deck-v1"`
 * `deck` is an ordered array of slides
-* Each slide has:
+* each slide defines:
 
-  * `start` (seconds)
-  * `end` (seconds)
   * `type`
+  * `start`
+  * `end`
   * `data`
 
-### Why this matters
+Optional, deck-level metadata includes:
 
-* Decks are **long-lived content**
-* Slides can be fixed, corrected, or improved over time
-* The core must remain stable even as content grows
+* `background` (static, declarative)
+* name, description, tags, status
 
-👉 **Once published, `deck-v1` must never be mutated implicitly.**
+👉 **Once published, a deck is never mutated implicitly.**
 
-If a future version is needed, it will be `deck-v2`, not a silent change.
+If semantics change, a new contract (`deck-v2`) is introduced.
 
 ---
 
-## Contract documentation (MANDATORY READING)
+## Contract documentation (MANDATORY)
 
-These documents define the **authoritative format and semantics** of `deck-v1`.
-They are **part of the public contract**, just like code.
+These documents define the **authoritative meaning** of `deck-v1`
+They are part of the public API.
 
-* [`docs/api.md`](./docs/api.md)
-  → Defines the overall deck structure and slide model.
-
-* [`docs/timings.md`](./docs/timings.md)
-  → Defines timing rules, slide boundaries, and playback semantics.
-
-* [`docs/eq.md`](./docs/eq.md)
-  → Defines EQ slide format and constraints.
+* `docs/api.md` — deck & slide structure
+* `docs/timings.md` — timing rules (semantic, not playback)
+* `docs/eq.md` — EQ slide format
 
 **Rules:**
 
-* These files must stay **in sync with code**
-* They must be **versioned**
-* They must **never drift**
-* Changes require a **new deck version**, not silent edits
+* Docs and code must stay in sync
+* Changes require a new deck version
+* No silent behavior changes
 
 ---
 
@@ -136,28 +133,28 @@ They are **part of the public contract**, just like code.
 
 Validation is **explicit and non-mutating**.
 
-### Validation does:
+Validation **does**:
 
-* check structure
-* check types
-* check required fields
+* verify structure
+* verify types
+* enforce constraints
 
-### Validation does NOT:
+Validation **does not**:
 
-* auto-fix
 * inject defaults
+* auto-correct
 * guess intent
 
-This separation prevents hidden behavior and rebuild anxiety.
+This keeps content safe and predictable.
 
 ---
 
-## Public API (v1)
+## Public API
 
 All exports come from:
 
 ```js
-import * as TaleemCore from 'taleem-core';
+import * as TaleemCore from "taleem-core";
 ```
 
 ### Deck validation
@@ -166,9 +163,9 @@ import * as TaleemCore from 'taleem-core';
 validateDeckV1(deck)
 ```
 
-* Returns `{ ok: true, value }` or `{ ok: false, errors }`
-* Uses the frozen `zodDeckV1` schema
-* **Pure** (no mutation)
+* returns `{ ok: true, value }` or `{ ok: false, errors }`
+* uses the frozen `zodDeckV1` schema
+* pure (no mutation)
 
 ---
 
@@ -178,157 +175,60 @@ validateDeckV1(deck)
 hasBackground(deck)
 ```
 
-* Returns `true | false`
-
-```js
-patchBackground(deck, defaultBg?)
-```
-
-* Returns a **new deck object**
-* Does nothing if background already exists
-* Never mutates the original deck
+* returns `true | false`
+* checks **only** for declared background
 
 ```js
 isEmptyDeck(deck)
 ```
 
-* Returns `true` if `deck[]` is missing or empty
+* returns `true` if `deck.deck` is missing or empty
 
-These helpers are intentionally small and explicit.
+These helpers answer **semantic questions**, not runtime ones.
 
 ---
 
-## Playback math (core responsibility)
+## Core CSS (`taleem.css`)
 
-Playback math is **pure, deterministic, and UI-free**.
+`taleem-core` includes a **single CSS file**:
 
-```js
-getDeckEnd(deck)
+```
+styles/taleem.css
 ```
 
-* Returns total duration in seconds
-* Uses the last slide’s `end`
+This file defines the **semantic visual baseline** for Taleem slides.
 
-```js
-clampTime(deck, t)
-```
+### What `taleem.css` does
 
-* Clamps any time value into `[0 … deckEnd]`
-* Prevents negative or overflow time
+* maps semantic classes → appearance
+* consumes **theme tokens** via CSS variables
+* defines consistent typography and spacing
 
-```js
-pickSlideByTime(deck, t)
-```
+### What it does NOT do
 
-* Returns:
+* define themes
+* inject styles dynamically
+* assume frameworks
+* manage background rendering
 
-  ```js
-  {
-    index,
-    slide,
-    type
-  }
-  ```
-* Linear scan (deck assumed sorted by time)
-* This is the **single authority** for time → slide mapping
-
-👉 **If slide timing feels wrong, this is the only place to look.**
+Importing `taleem-core` in a browser build applies the core CSS as a side effect.
 
 ---
 
-## Timer (clock)
+## Design rules (LOCKED)
 
-`taleem-core` includes a **deterministic clock** that does not depend on audio.
-
-```js
-const timer = new Timer();
-```
-
-### Capabilities
-
-* `play()`
-* `pause()`
-* `seek(seconds)`
-* `onTick(callback, intervalMs?)`
-* `destroy()`
-
-### Design intent
-
-* Audio engines **produce time**
-* The core **consumes time**
-* The Timer allows:
-
-  * silent playback
-  * tests
-  * fallback when audio is missing
-
-This prevents coupling playback logic to audio libraries.
+1. Core defines **structure**, not behavior
+2. Core never touches **time**
+3. Core never touches **DOM**
+4. Core never injects **defaults**
+5. Core evolves only via **new contracts**
 
 ---
 
-## Why audio is NOT in core
+## Mental model
 
-Audio is:
-
-* environment-dependent
-* browser-dependent
-* backend-dependent
-
-Core logic must remain:
-
-* testable
-* deterministic
-* stable for years
-
-Audio adapters (Howler, WebAudio, etc.) live **outside** this package and feed time into it.
-
----
-
-## Tests and trust
-
-This package has **passing automated tests** for:
-
-* deck validation helpers
-* playback math
-* timer behavior
-
-The purpose of tests is **trust**, not coverage.
-
-If tests pass:
-
-* the core is safe
-* you may forget how it works
-* you may build on top confidently
-
----
-
-## Rules for future changes (IMPORTANT)
-
-1. **Do not change behavior silently**
-2. **Do not add UI concepts**
-3. **Do not add audio logic**
-4. **Do not auto-mutate decks**
-5. **Do not expand scope**
-
-Allowed:
-
-* new helpers if they are explicit
-* new deck versions (`deck-v2`) as parallel contracts
-
-Not allowed:
-
-* “just a small fix”
-* “while we’re here”
-* “temporary hacks”
-
----
-
-## Mental model to remember
-
-> **taleem-core defines WHAT a lesson is and HOW time maps to it.
-> Everything else is replaceable.**
-
-If you remember only one sentence, remember that.
+> **taleem-core defines what a lesson *is*.
+> Everything else defines how it is *experienced*.**
 
 ---
 
@@ -336,36 +236,12 @@ If you remember only one sentence, remember that.
 
 Only touch `taleem-core` if:
 
-* the deck contract changes
-* timing semantics change
-* a bug violates an explicit rule in this README
+* a deck contract changes
+* a validation rule is wrong
+* a documented invariant is violated
 
 Otherwise:
-**do not open this repo.**
+
+> **Do not open this repo.**
 
 ---
-
-## Status
-
-✔ Core extracted
-✔ Tests passing
-✔ Contract frozen
-
-This is a **completed deliverable**.
-
-You can now safely move on.
-
----
-
-### Final verdict
-
-This README is **done**.
-Commit it and treat it as **law**, not documentation.
-
-If you want next:
-
-* wiring into Svelte
-* audio adapter
-* content pipeline docs
-
-Just say which.
