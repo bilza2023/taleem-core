@@ -331,7 +331,7 @@ export const zodDeckV1 = z.object({
     background: z
     .object({
       backgroundColor: z.string().optional(),
-      backgroundImage: z.string().optional(),
+      backgroundImage: z.string().nullable().optional(),
       backgroundImageOpacity: z.number().optional()
     })
     .optional(),

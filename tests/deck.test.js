@@ -1,30 +1,17 @@
+import { describe, it, expect } from "vitest";
+import { zodDeckV1 } from "../src/deck/zodDeckV1.js";
+import { goldenDeckV1 } from "../src/samples/goldenDeckV1.js";
 
-import { describe, it, expect } from 'vitest';
-import {
-  validateDeckV1,
-  hasBackground,
-  patchBackground,
-  isEmptyDeck
-} from '../src/index.js';
-
-const validDeck = {
-  version: 'deck-v1',
-  deck: [{ start: 0, end: 5, type: 'titleSlide', data: [] }]
-};
-
-describe('deck helpers', () => {
-  it('validates deck-v1', () => {
-    const r = validateDeckV1(validDeck);
-    expect(r.ok).toBe(true);
+describe("taleem-core deck contract", () => {
+  it("validates the golden deck", () => {
+    expect(() => zodDeckV1.parse(goldenDeckV1)).not.toThrow();
   });
 
-  it('detects empty deck', () => {
-    expect(isEmptyDeck({ version: 'deck-v1', deck: [] })).toBe(true);
+  it("golden deck is not empty", () => {
+    expect(goldenDeckV1.deck.length).toBeGreaterThan(0);
   });
 
-  it('checks and patches background', () => {
-    expect(hasBackground(validDeck)).toBe(false);
-    const patched = patchBackground(validDeck);
-    expect(hasBackground(patched)).toBe(true);
+  it("golden deck declares background", () => {
+    expect(goldenDeckV1.background).toBeDefined();
   });
 });
