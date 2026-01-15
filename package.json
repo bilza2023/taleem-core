@@ -1,7 +1,6 @@
-
 {
   "name": "taleem-core",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "type": "module",
   "description": "Schema and Golden-Deck for Taleem (UI-agnostic)",
   "main": "src/index.js",
