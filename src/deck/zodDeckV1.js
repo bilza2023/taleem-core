@@ -1,5 +1,3 @@
-
-
 import { z } from 'zod';
 
 // Base shared slide structure
@@ -114,8 +112,16 @@ const table = baseSlide.extend({
   type: z.literal("table"),
   data: z.array(
     z.union([
-      z.object({ name: z.literal("headers"), content: z.array(z.string()), showAt: z.number().optional() }),
-      z.object({ name: z.literal("rows"), content: z.array(z.array(z.string())), showAt: z.number().optional() })
+      z.object({
+        name: z.literal("header"),
+        content: z.array(z.string()),
+        showAt: z.number().optional()
+      }),
+      z.object({
+        name: z.literal("row"),
+        content: z.array(z.array(z.string())),
+        showAt: z.number().optional()
+      })
     ])
   )
 });
@@ -216,6 +222,8 @@ const contactSlide = baseSlide.extend({
 });
 
 // 19 Eq : eq schema
+// ⚠️ One real issue (important, but not fatal)
+// Naming collision: type used twice
 const eqSlide = baseSlide.extend({
   type: z.literal("eq"),
   data: z.array(
