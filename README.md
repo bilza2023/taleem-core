@@ -1,247 +1,201 @@
 
-
 # `taleem-core`
 
-**Version:** v1 (core frozen)
 **Status:** STABLE
-**Scope:** Deck contracts + validation + core CSS
-**UI:** NONE
-**Playback:** NONE
-**Audio:** NONE
+**Version:** deck-v1 (frozen)
+**Scope:** Schema only
+**UI:** none
+**Player:** none
+**Renderer:** none
 
 ---
 
-## Purpose
+## What is `taleem-core`?
 
-`taleem-core` defines the **foundational contracts** of the Taleem ecosystem.
+`taleem-core` defines the **Zod schema for Taleem slides**.
 
-It exists to answer one question only:
+It answers **one question only**:
 
-> **“What is a valid Taleem deck?”**
+> **Is this Taleem deck valid or not?**
 
-Once this package is trusted, everything else (player, browser, UI, audio, frameworks) can change freely.
+That’s it.
+
+If a deck passes validation here, it is considered **correct Taleem data**.
 
 ---
 
 ## What this package contains
 
-`taleem-core` contains **only stable, long-lived definitions**:
+`taleem-core` contains:
 
-* the **deck contract** (`deck-v1`)
-* **deck validation**
-* **semantic deck inspection helpers**
-* **core visual contract (`taleem.css`)**
-
-It intentionally contains:
-
-* ❌ no rendering
-* ❌ no playback logic
-* ❌ no timing math
-* ❌ no clocks or timers
-* ❌ no audio logic
-* ❌ no framework code
-* ❌ no environment assumptions
+* the **deck-v1 Zod schema**
+* definitions for **exactly 21 slide types**
+* a **canonical golden deck** that validates successfully
+* minimal helpers related to deck structure
+* a small base CSS file (`taleem.css`) for semantic styling
 
 ---
 
-## What this package is NOT
+## What this package does NOT do
 
 `taleem-core` does **not**:
 
 * render slides
-* decide active slides
-* manage time
-* clamp timestamps
+* play slides
+* animate slides
+* manage time or clocks
 * sync audio
-* mount DOM
-* apply themes
-* resolve backgrounds
-* fetch files
-* store user state
+* touch the DOM
+* assume browser, framework, or environment
+* fix or mutate decks
 
-If something depends on **time**, **DOM**, or **environment** — it does **not** belong here.
+If something depends on **runtime, UI, or environment**, it does **not** belong here.
 
 ---
 
-## Architectural position
+## The Taleem slide language
 
+`taleem-core` defines a **single slide language**.
+
+* There are **exactly 21 slide types**
+* All slides follow the **same grammar**
+* There are **no special slides**
+* There are **no advanced slides**
+* There are **no future slides**
+
+Every slide:
+
+```txt
+- has a type
+- has start and end time
+- contains data entries
+- uses semantic names inside data
 ```
-Deck JSON (content)
-        ↓
-   taleem-core
-        ↓
- Player / Browser / App
-        ↓
-        DOM
+
+If a slide exists in the schema, it is **canonical**.
+
+---
+
+## About EQ, tables, charts, etc.
+
+Slides like:
+
+* `eq`
+* `table`
+* `donutChart`
+* `barChart`
+
+are **not special**.
+
+They are:
+
+* declarative
+* schema-validated
+* equal citizens of the language
+
+Any complexity (flattening, rendering, animation) is an **app concern**, not a schema concern.
+
+---
+
+## The Golden Deck
+
+`taleem-core` exports a **single canonical golden deck**.
+
+This deck:
+
+* uses **all 21 slide types**
+* passes schema validation
+* represents the full Taleem slide language
+
+If this deck validates:
+
+```txt
+the schema is correct
 ```
 
-`taleem-core` sits **below all runtime systems**.
+If something breaks elsewhere:
 
-It is designed to be:
-
-* boring
-* stable
-* forgettable
-* trustworthy
-
----
-
-## The Deck Contract (`deck-v1`)
-
-All Taleem playback depends on **one frozen contract**: `deck-v1`.
-
-### Core properties
-
-* `version` must be `"deck-v1"`
-* `deck` is an ordered array of slides
-* each slide defines:
-
-  * `type`
-  * `start`
-  * `end`
-  * `data`
-
-Optional, deck-level metadata includes:
-
-* `background` (static, declarative)
-* name, description, tags, status
-
-👉 **Once published, a deck is never mutated implicitly.**
-
-If semantics change, a new contract (`deck-v2`) is introduced.
-
----
-
-## Contract documentation (MANDATORY)
-
-These documents define the **authoritative meaning** of `deck-v1`
-They are part of the public API.
-
-* `docs/api.md` — deck & slide structure
-* `docs/timings.md` — timing rules (semantic, not playback)
-* `docs/eq.md` — EQ slide format
-
-**Rules:**
-
-* Docs and code must stay in sync
-* Changes require a new deck version
-* No silent behavior changes
+```txt
+the bug is in the renderer, browser, or player
+```
 
 ---
 
 ## Validation philosophy
 
-Validation is **explicit and non-mutating**.
+Validation is:
+
+* strict
+* explicit
+* non-mutating
 
 Validation **does**:
 
-* verify structure
-* verify types
-* enforce constraints
+* check structure
+* check types
+* enforce the declared grammar
 
 Validation **does not**:
 
-* inject defaults
-* auto-correct
 * guess intent
-
-This keeps content safe and predictable.
-
----
-
-## Public API
-
-All exports come from:
-
-```js
-import * as TaleemCore from "taleem-core";
-```
-
-### Deck validation
-
-```js
-validateDeckV1(deck)
-```
-
-* returns `{ ok: true, value }` or `{ ok: false, errors }`
-* uses the frozen `zodDeckV1` schema
-* pure (no mutation)
+* inject defaults
+* “fix” data
+* adapt to renderers
 
 ---
 
-### Deck inspection helpers
+## Sister projects
 
-```js
-hasBackground(deck)
-```
+Other Taleem projects **use this schema**, but do not modify it.
 
-* returns `true | false`
-* checks **only** for declared background
+Examples:
 
-```js
-isEmptyDeck(deck)
-```
+* Taleem Browser
+* Taleem Player
+* Other future renderers
 
-* returns `true` if `deck.deck` is missing or empty
-
-These helpers answer **semantic questions**, not runtime ones.
+They all **start from valid data**.
 
 ---
 
-## Core CSS (`taleem.css`)
+## Extensions (future-safe)
 
-`taleem-core` includes a **single CSS file**:
+This schema is **closed**.
 
-```
-styles/taleem.css
-```
+No new slide types will be added here.
 
-This file defines the **semantic visual baseline** for Taleem slides.
+If new ideas are needed:
 
-### What `taleem.css` does
+* they will be implemented as **extensions**
+* or as **separate packages**
+* without changing `deck-v1`
 
-* maps semantic classes → appearance
-* consumes **theme tokens** via CSS variables
-* defines consistent typography and spacing
-
-### What it does NOT do
-
-* define themes
-* inject styles dynamically
-* assume frameworks
-* manage background rendering
-
-Importing `taleem-core` in a browser build applies the core CSS as a side effect.
-
----
-
-## Design rules (LOCKED)
-
-1. Core defines **structure**, not behavior
-2. Core never touches **time**
-3. Core never touches **DOM**
-4. Core never injects **defaults**
-5. Core evolves only via **new contracts**
+This keeps the core stable.
 
 ---
 
 ## Mental model
 
-> **taleem-core defines what a lesson *is*.
-> Everything else defines how it is *experienced*.**
+> **`taleem-core` defines what a slide *is*.
+> Other projects decide how it is *shown*.**
 
 ---
 
-## When to touch this repo again
+## When to touch this repo
 
-Only touch `taleem-core` if:
+Only change `taleem-core` if:
 
-* a deck contract changes
-* a validation rule is wrong
-* a documented invariant is violated
+* the schema is wrong
+* a documented invariant is broken
+* a new deck version is intentionally introduced
 
 Otherwise:
 
-> **Do not open this repo.**
+> **Do not modify this package.**
 
 ---
+
+If you want, next we can:
+
+* clean `api.md` the same way (one slide at a time)
+* or align `eq.md` with the new “no special slides” rule
