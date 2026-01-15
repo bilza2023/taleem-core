@@ -1,220 +1,218 @@
-# 🧠 Taleem Slides API — Version 1.0 candidate
+# Taleem Slide Schema — `deck-v1`
 
-This document defines the **stable, supported API** for creating `deck-v1` presentations in **Taleem Player**.
+**Status:** Stable · Frozen
 
-> **Design principle:**
-> This API intentionally supports a **small, reliable set of slide types** that cover ~90% of real educational content.
-> If content does not fit a slide, a **new slide template** should be introduced — not stretched.
+This document describes the **complete Taleem slide schema** (`deck-v1`).
 
----
-> Decks are authored directly as JSON.
-> New slides will be added but these slide types will never be removed
----
+It defines **exactly 21 canonical slide types** that together form the full Taleem slide language.
 
-## 🧱 Deck Object Structure
-
-Every deck is a JSON object with the following structure:
-
-```ts
-{
-  version: "deck-v1",
-  name: string,
-  description?: string,
-  tags?: string[],
-  status?: "draft" | "ready" | "published",
-  deck: Slide[]
-}
-```
-
-The `deck` array contains slides in playback order.
+If a deck validates against this schema, it is considered **correct Taleem data**.
 
 ---
 
-## 🧱 Slide Format
+## What this document is
 
-Each slide follows this structure:
+* A **language reference** for Taleem slides
+* A guide for **humans and AI** generating slide decks
+* A contract used by Taleem renderers and players
 
-```ts
-{
-  type: string,     // required
-  start: number,    // absolute time (seconds)
-  end: number,      // absolute time (seconds)
-  data: object[]    // slide-specific items
-}
-```
-
-### Timing Rules
-
-- All timing is **absolute**
-- `showAt` must fall within `[start, end]`
-- If `showAt` is omitted, the item appears at `start`
+This document mirrors the Zod schema exactly.
 
 ---
 
-## 🎞️ Supported Slide Types (v1.0)
+## What this document is NOT
 
-Only the slide types listed below are **officially supported** in v1.0.
+This schema does **not**:
 
----
+* render slides
+* play slides
+* animate slides
+* manage clocks or playback
+* assume browser or framework
+* fix or mutate decks
 
-### 1. `titleSlide`
-
-Use for section starts or major breaks.
-
-```ts
-[{ name: "title", content: "My Slide Title", showAt: 0 }];
-```
-
----
-
-### 2. `titleAndSubtitle`
-
-Use for introducing topics or lessons.
-
-```ts
-[
-  { name: "title", content: "Main Title", showAt: 0 },
-  { name: "subtitle", content: "Supporting subtitle", showAt: 1 },
-];
-```
+Those responsibilities belong to **sister projects**.
 
 ---
 
-### 3. `bulletList`
+## Core principles
 
-Use for step-by-step explanations.
-
-```ts
-[
-  { name: "bullet", content: "First point", showAt: 0 },
-  { name: "bullet", content: "Second point", showAt: 1 },
-  { name: "bullet", content: "Third point", showAt: 2 },
-];
-```
+* There are **no special slides**
+* There are **no advanced slides**
+* All slide types are **equal and canonical**
+* Meaning is expressed by **names**, not positions
+* Validation checks **structure**, not behavior
 
 ---
 
-### 4. `twoColumnText`
+## Deck object
 
-Use for comparison, definition vs example, or theory vs summary.
+A Taleem deck has the following structure:
 
-```ts
-[
-  { name: "title", content: "Two-Column Layout", showAt: 0 },
-  { name: "left", content: "Left column content", showAt: 1 },
-  { name: "right", content: "Right column content", showAt: 1 },
-];
-```
+* `version` — must be `"deck-v1"`
+* `name` — human-readable title
+* `background` — optional visual hints
+* `deck` — ordered array of slides
 
----
-
-### 5. `imageSlide`
-
-Use when the image itself is the focus.
-
-```ts
-[{ name: "image", content: "/images/example.png", showAt: 0 }];
-```
+If the deck validates, it is correct.
 
 ---
 
-### 6. `imageWithTitle`
+## Background object
 
-Use when an image needs a clear heading.
+The background object is declarative only.
 
-```ts
-[
-  { name: "image", content: "/images/example.png", showAt: 0 },
-  { name: "title", content: "Image Heading", showAt: 1 },
-];
-```
+* `backgroundColor` — string (e.g. `#111111`)
+* `backgroundImage` — string or `null`
+* `backgroundImageOpacity` — number (0–1)
 
----
-
-### 7. `imageWithCaption`
-
-Use when an image needs explanation without clutter.
-
-```ts
-[
-  { name: "image", content: "/images/example.png", showAt: 0 },
-  { name: "caption", content: "Supporting explanation", showAt: 1 },
-];
-```
+Renderers may ignore these values.
 
 ---
 
-### 8. `imageLeftBulletsRight`
+## Slide grammar (applies to ALL slides)
 
-Use for teaching with visual anchoring.
+Every slide follows the same grammar:
 
-```ts
-[
-  { name: "image", content: "/images/example.png", showAt: 0 },
-  { name: "bullet", content: "Explanation point one", showAt: 1 },
-  { name: "bullet", content: "Explanation point two", showAt: 2 },
-];
-```
+* `type` — slide type name
+* `start` — number
+* `end` — number
+* `data` — array of semantic items
 
----
-
-### 9. `imageRightBulletsLeft`
-
-Same structure as above, reversed for visual variation.
-
-```ts
-[
-  { name: "image", content: "/images/example.png", showAt: 0 },
-  { name: "bullet", content: "Key idea one", showAt: 1 },
-  { name: "bullet", content: "Key idea two", showAt: 2 },
-];
-```
+Timing values are structural only. Interpretation is an application concern.
 
 ---
 
-### 10. `bigNumber`
+## Semantic data items
 
-Use for emphasis, milestones, or key facts.
+Inside `data`, each item:
 
-```ts
-[
-  { name: "number", content: "5", showAt: 0 },
-  { name: "label", content: "Core Slide Types", showAt: 1 },
-];
-```
+* has a `name`
+* has `content` or structured fields
+* may include `showAt`
 
----
+**Order never implies meaning.**
 
-### 11. `contactSlide`
-
-Use for project, author, or course information.
-
-```ts
-[
-  { name: "headline", content: "About the Project", showAt: 0 },
-  { name: "email", content: "info@example.com", showAt: 1 },
-  { name: "phone", content: "Additional context or tagline", showAt: 2 },
-];
-```
+Meaning is always explicit.
 
 ---
 
-## 🚫 Explicitly Out of Scope (v1.0)
+## Canonical slide types (21)
 
-The following are **not part of v1.0** and are intentionally excluded from the API:
+The following slide types are **complete and final** for `deck-v1`.
 
-- tables
-- charts (bar, donut, statistics)
-- long-text / paragraph-heavy slides
-- RTL / Arabic-specific layouts
-- SVG pointer or diagram overlays
-- EQ / equation slides
+There is no core/advanced distinction.
 
-These may appear in **future versions** as **new slide templates**, not extensions.
+### Text slides
+
+1. `titleSlide`
+2. `titleAndSubtitle`
+3. `titleAndPara`
+4. `bulletList`
+5. `twoColumnText`
+
+### Image slides
+
+6. `imageSlide`
+7. `imageWithTitle`
+8. `imageWithCaption`
+9. `imageLeftBulletsRight`
+10. `imageRightBulletsLeft`
+11. `fillImage`
+
+### Data & statistic slides
+
+12. `bigNumber`
+13. `statistic`
+14. `table`
+15. `barChart`
+16. `donutChart`
+
+### Quote & utility slides
+
+17. `quoteSlide`
+18. `quoteWithImage`
+19. `cornerWordsSlide`
+20. `contactSlide`
+
+### Structured content
+
+21. `eq`
 
 ---
 
-## 🔒 Version Philosophy
+## Table slide
 
-- **v1.0** = stable core slides
-> **Slides define content limits — content never stretches slides.**
+The `table` slide is semantic, not positional.
+
+* `header` — array of strings
+* `row` — array of string arrays
+
+No assumptions are made about layout or styling.
+
+---
+
+## EQ slide
+
+The `eq` slide represents structured mathematical or symbolic content.
+
+* Content is declarative
+* Nested data (`spItems`) is allowed
+* Flattening or preprocessing is **not** a schema concern
+
+All interpretation is handled by the application.
+
+---
+
+## Golden deck
+
+`taleem-core` exports a **canonical golden deck**.
+
+This deck:
+
+* uses all 21 slide types
+* passes schema validation
+* represents the full language
+
+If the golden deck validates, the schema is correct.
+
+---
+
+## Validation philosophy
+
+Validation:
+
+* is strict
+* is explicit
+* never mutates data
+
+If validation passes:
+
+> the deck is correct
+
+If something fails later:
+
+> the bug is in the renderer or player
+
+---
+
+## Extensions
+
+The `deck-v1` schema is **closed**.
+
+New ideas should be implemented as:
+
+* extensions
+* separate packages
+* renderer-level features
+
+The core schema should remain stable.
+
+---
+
+## Mental model
+
+> Taleem Core defines **what a slide is**.
+> Other projects decide **how it is shown**.
+
+If a deck validates here, it is truth.

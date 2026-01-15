@@ -23,7 +23,7 @@ That’s it.
 If a deck passes validation here, it is considered **correct Taleem data**.
 
 ---
-
+> for detail , demo and docs check <a href="https://bilza2023.github.io/taleem/">https://bilza2023.github.io/taleem/</a>
 ## What this package contains
 
 `taleem-core` contains:
