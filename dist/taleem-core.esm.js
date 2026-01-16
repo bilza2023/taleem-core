@@ -1,15 +1,12 @@
-// import { zodDeckV1 } from "../deck/zodDeckV1.js";
-
-export const goldenDeckV1 = {
+// src/samples/goldenDeckV1.js
+var goldenDeckV1 = {
   version: "deck-v1",
-  name: "Golden Deck V1 – Full Schema Coverage",
-
+  name: "Golden Deck V1 \u2013 Full Schema Coverage",
   background: {
     backgroundColor: "#111111",
     backgroundImage: null,
     backgroundImageOpacity: 0.3
   },
-
   deck: [
     // 1 titleSlide
     {
@@ -20,7 +17,6 @@ export const goldenDeckV1 = {
         { name: "title", content: "Golden Deck", showAt: 0 }
       ]
     },
-
     // 2 titleAndSubtitle
     {
       type: "titleAndSubtitle",
@@ -31,7 +27,6 @@ export const goldenDeckV1 = {
         { name: "subtitle", content: "Schema language demo", showAt: 6 }
       ]
     },
-
     // 3 bulletList
     {
       type: "bulletList",
@@ -43,7 +38,6 @@ export const goldenDeckV1 = {
         { name: "bullet", content: "No internal state", showAt: 12 }
       ]
     },
-
     // 4 twoColumnText
     {
       type: "twoColumnText",
@@ -54,7 +48,6 @@ export const goldenDeckV1 = {
         { name: "right", content: "Player\n(scalar-based)", showAt: 17 }
       ]
     },
-
     // 5 imageSlide
     {
       type: "imageSlide",
@@ -64,7 +57,6 @@ export const goldenDeckV1 = {
         { name: "image", content: "image.png", showAt: 20 }
       ]
     },
-
     // 6 imageWithTitle
     {
       type: "imageWithTitle",
@@ -75,7 +67,6 @@ export const goldenDeckV1 = {
         { name: "image", content: "image.png", showAt: 26 }
       ]
     },
-
     // 7 imageWithCaption
     {
       type: "imageWithCaption",
@@ -86,7 +77,6 @@ export const goldenDeckV1 = {
         { name: "caption", content: "Caption as data", showAt: 31 }
       ]
     },
-
     // 8 imageLeftBulletsRight
     {
       type: "imageLeftBulletsRight",
@@ -98,7 +88,6 @@ export const goldenDeckV1 = {
         { name: "bullet", content: "Order defined by data", showAt: 37 }
       ]
     },
-
     // 9 imageRightBulletsLeft
     {
       type: "imageRightBulletsLeft",
@@ -110,7 +99,6 @@ export const goldenDeckV1 = {
         { name: "bullet", content: "No timing logic here", showAt: 42 }
       ]
     },
-
     // 10 table
     {
       type: "table",
@@ -128,7 +116,6 @@ export const goldenDeckV1 = {
         }
       ]
     },
-
     // 11 statistic
     {
       type: "statistic",
@@ -139,7 +126,6 @@ export const goldenDeckV1 = {
         { name: "label", content: "Slide Types", showAt: 51 }
       ]
     },
-
     // 12 donutChart
     {
       type: "donutChart",
@@ -151,7 +137,6 @@ export const goldenDeckV1 = {
         { name: "color", content: "#ff9900", showAt: 57 }
       ]
     },
-
     // 13 bigNumber
     {
       type: "bigNumber",
@@ -162,7 +147,6 @@ export const goldenDeckV1 = {
         { name: "label", content: "Deterministic", showAt: 61 }
       ]
     },
-
     // 14 barChart
     {
       type: "barChart",
@@ -173,7 +157,6 @@ export const goldenDeckV1 = {
         { name: "bar", label: "Impure", value: 2, showAt: 66 }
       ]
     },
-
     // 15 quoteSlide
     {
       type: "quoteSlide",
@@ -181,10 +164,9 @@ export const goldenDeckV1 = {
       end: 75,
       data: [
         { name: "quote", content: "Schema defines truth.", showAt: 70 },
-        { name: "author", content: "— Taleem", showAt: 72 }
+        { name: "author", content: "\u2014 Taleem", showAt: 72 }
       ]
     },
-
     // 16 quoteWithImage
     {
       type: "quoteWithImage",
@@ -192,21 +174,19 @@ export const goldenDeckV1 = {
       end: 80,
       data: [
         { name: "quote", content: "Language over implementation.", showAt: 75 },
-        { name: "author", content: "— Core", showAt: 77 },
+        { name: "author", content: "\u2014 Core", showAt: 77 },
         { name: "image", content: "image.png", showAt: 78 }
       ]
     },
-
     // 17 cornerWordsSlide
     {
       type: "cornerWordsSlide",
       start: 80,
       end: 85,
       data: [
-        { name: "card", icon: "★", label: "Focus", showAt: 80 }
+        { name: "card", icon: "\u2605", label: "Focus", showAt: 80 }
       ]
     },
-
     // 18 contactSlide
     {
       type: "contactSlide",
@@ -218,7 +198,6 @@ export const goldenDeckV1 = {
         { name: "phone", content: "github.com", showAt: 87 }
       ]
     },
-
     // 19 eq
     {
       type: "eq",
@@ -234,7 +213,7 @@ export const goldenDeckV1 = {
         {
           name: "line",
           type: "math",
-          content: "render(data) ⇒ same output",
+          content: "render(data) \u21D2 same output",
           showAt: 91,
           spItems: [
             { type: "spText", content: "No hidden state" }
@@ -242,7 +221,6 @@ export const goldenDeckV1 = {
         }
       ]
     },
-
     // 20 fillImage
     {
       type: "fillImage",
@@ -252,7 +230,6 @@ export const goldenDeckV1 = {
         { name: "image", content: "image.png", showAt: 95 }
       ]
     },
-
     // 21 titleAndPara
     {
       type: "titleAndPara",
@@ -265,6 +242,6 @@ export const goldenDeckV1 = {
     }
   ]
 };
-
-// 🔒 Canonical validation
-// zodDeckV1.parse(goldenDeckV1);
+export {
+  goldenDeckV1
+};
