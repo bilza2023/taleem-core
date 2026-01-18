@@ -14,7 +14,7 @@ var goldenDeckV1 = {
       start: 0,
       end: 5,
       data: [
-        { name: "title", content: "Golden Deck", showAt: 0 }
+        { name: "title", content: "Taleem Project - Golden Deck", showAt: 0 }
       ]
     },
     // 2 titleAndSubtitle
@@ -23,8 +23,8 @@ var goldenDeckV1 = {
       start: 5,
       end: 10,
       data: [
-        { name: "title", content: "Title & Subtitle", showAt: 5 },
-        { name: "subtitle", content: "Schema language demo", showAt: 6 }
+        { name: "title", content: "How Taleem Slides Work", showAt: 5 },
+        { name: "subtitle", content: "A simple, calm way to present ideas", showAt: 6 }
       ]
     },
     // 3 bulletList
@@ -33,19 +33,32 @@ var goldenDeckV1 = {
       start: 10,
       end: 15,
       data: [
-        { name: "bullet", content: "Structured slide data", showAt: 10 },
-        { name: "bullet", content: "Renderer consumes data only", showAt: 11 },
-        { name: "bullet", content: "No internal state", showAt: 12 }
+        { name: "bullet", content: "Each slide is carefully prepared information", showAt: 10 },
+        { name: "bullet", content: "The system only shows what is written", showAt: 11 },
+        { name: "bullet", content: "Nothing changes behind the scenes", showAt: 12 },
+        { name: "bullet", content: "The author controls when ideas appear", showAt: 13 },
+        { name: "bullet", content: "The same lesson looks the same everywhere", showAt: 14 }
       ]
     },
-    // 4 twoColumnText
     {
       type: "twoColumnText",
       start: 15,
       end: 20,
       data: [
-        { name: "left", content: "Browser\n(index-based)", showAt: 15 },
-        { name: "right", content: "Player\n(scalar-based)", showAt: 17 }
+        {
+          name: "left",
+          content: `
+          taleem-browser shows one complete slide at a time. Each slide appears fully, clear, and ready to read.
+          `,
+          showAt: 15
+        },
+        {
+          name: "right",
+          content: `
+          taleem-player shows content gradually, like a video. Ideas appear step by step as the lesson moves forward.
+          `,
+          showAt: 17
+        }
       ]
     },
     // 5 imageSlide
@@ -63,7 +76,7 @@ var goldenDeckV1 = {
       start: 25,
       end: 30,
       data: [
-        { name: "title", content: "Image With Title", showAt: 25 },
+        { name: "title", content: "Learning with Visual Support", showAt: 25 },
         { name: "image", content: "image.png", showAt: 26 }
       ]
     },
@@ -84,8 +97,10 @@ var goldenDeckV1 = {
       end: 40,
       data: [
         { name: "image", content: "image.png", showAt: 35 },
-        { name: "bullet", content: "Layout is declarative", showAt: 36 },
-        { name: "bullet", content: "Order defined by data", showAt: 37 }
+        { name: "bullet", content: "Each slide has a clear visual focus", showAt: 36 },
+        { name: "bullet", content: "Points are shown in a planned order", showAt: 37 },
+        { name: "bullet", content: "Nothing appears randomly", showAt: 38 },
+        { name: "bullet", content: "This helps students follow step by step", showAt: 39 }
       ]
     },
     // 9 imageRightBulletsLeft
@@ -95,8 +110,10 @@ var goldenDeckV1 = {
       end: 45,
       data: [
         { name: "image", content: "image.png", showAt: 40 },
-        { name: "bullet", content: "Renderer is pure", showAt: 41 },
-        { name: "bullet", content: "No timing logic here", showAt: 42 }
+        { name: "bullet", content: "Slides do not change on their own", showAt: 41 },
+        { name: "bullet", content: "The teacher decides when to move forward", showAt: 42 },
+        { name: "bullet", content: "Students are never rushed", showAt: 43 },
+        { name: "bullet", content: "This keeps learning calm and focused", showAt: 44 }
       ]
     },
     // 10 table
@@ -129,7 +146,7 @@ var goldenDeckV1 = {
       end: 60,
       data: [
         { name: "percent", content: "60", showAt: 55 },
-        { name: "label", content: "Rendered", showAt: 56 },
+        { name: "label", content: "Lesson Covered", showAt: 56 },
         { name: "color", content: "#ff9900", showAt: 57 }
       ]
     },
@@ -140,7 +157,7 @@ var goldenDeckV1 = {
       end: 65,
       data: [
         { name: "number", content: "100%", showAt: 60 },
-        { name: "label", content: "Deterministic", showAt: 61 }
+        { name: "label", content: "Always the Same Output", showAt: 61 }
       ]
     },
     // 14 barChart
@@ -149,8 +166,10 @@ var goldenDeckV1 = {
       start: 65,
       end: 70,
       data: [
-        { name: "bar", label: "Pure", value: 10, showAt: 65 },
-        { name: "bar", label: "Impure", value: 2, showAt: 66 }
+        { name: "bar", label: "Excellent", value: 4, showAt: 65 },
+        { name: "bar", label: "Good", value: 6, showAt: 66 },
+        { name: "bar", label: "Average", value: 5, showAt: 67 },
+        { name: "bar", label: "Needs improvement", value: 2, showAt: 68 }
       ]
     },
     // 15 quoteSlide
@@ -159,7 +178,7 @@ var goldenDeckV1 = {
       start: 70,
       end: 75,
       data: [
-        { name: "quote", content: "Schema defines truth.", showAt: 70 },
+        { name: "quote", content: "Clarity makes learning easier for everyone.", showAt: 70 },
         { name: "author", content: "\u2014 Taleem", showAt: 72 }
       ]
     },
@@ -169,8 +188,8 @@ var goldenDeckV1 = {
       start: 75,
       end: 80,
       data: [
-        { name: "quote", content: "Language over implementation.", showAt: 75 },
-        { name: "author", content: "\u2014 Core", showAt: 77 },
+        { name: "quote", content: "Understanding ideas matters more than using complex tools.", showAt: 75 },
+        { name: "author", content: "\u2014 Taleem", showAt: 77 },
         { name: "image", content: "image.png", showAt: 78 }
       ]
     },
@@ -180,7 +199,10 @@ var goldenDeckV1 = {
       start: 80,
       end: 85,
       data: [
-        { name: "card", icon: "\u2605", label: "Focus", showAt: 80 }
+        { name: "card", icon: "\u{1F9E0}", label: "Focus", showAt: 80 },
+        { name: "card", icon: "\u{1F4D8}", label: "Clarity", showAt: 81 },
+        { name: "card", icon: "\u23F1\uFE0F", label: "Pace", showAt: 82 },
+        { name: "card", icon: "\u{1F3AF}", label: "Understanding", showAt: 83 }
       ]
     },
     // 18 contactSlide
@@ -189,9 +211,9 @@ var goldenDeckV1 = {
       start: 85,
       end: 90,
       data: [
-        { name: "headline", content: "Library", showAt: 85 },
-        { name: "email", content: "taleem-slides", showAt: 86 },
-        { name: "phone", content: "github.com", showAt: 87 }
+        { name: "headline", content: "Taleem Project", showAt: 85 },
+        { name: "email", content: "github.com/taleem", showAt: 86 },
+        { name: "phone", content: "Open-source educational tools", showAt: 87 }
       ]
     },
     // 19 eq
@@ -203,7 +225,7 @@ var goldenDeckV1 = {
         {
           name: "line",
           type: "heading",
-          content: "Determinism",
+          content: "Eq Slide - under contruction",
           showAt: 90
         },
         {
