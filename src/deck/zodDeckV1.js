@@ -110,21 +110,19 @@ const imageRightBulletsLeft = baseSlide.extend({
 // 10 TABLE
 const table = baseSlide.extend({
   type: z.literal("table"),
-  data: z.array(
-    z.union([
-      z.object({
-        name: z.literal("header"),
-        content: z.array(z.string()),
-        showAt: z.number().optional()
-      }),
-      z.object({
-        name: z.literal("row"),
-        content: z.array(z.array(z.string())),
-        showAt: z.number().optional()
-      })
-    ])
-  )
+  data: z
+    .array(
+      z.array(z.string()).min(1) // each row must have at least 1 cell
+    )
+    .min(1) // table must have at least 1 row
+    .refine(
+      rows => rows.every(r => r.length === rows[0].length),
+      {
+        message: "All table rows must have the same number of columns"
+      }
+    )
 });
+
 
 // 11 STATISTIC
 const statistic = baseSlide.extend({

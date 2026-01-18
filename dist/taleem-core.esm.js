@@ -105,15 +105,11 @@ var goldenDeckV1 = {
       start: 45,
       end: 50,
       data: [
-        { name: "header", content: ["Layer", "Role"], showAt: 45 },
-        {
-          name: "row",
-          content: [
-            ["taleem-core", "Schema"],
-            ["taleem-slides", "Render"]
-          ],
-          showAt: 46
-        }
+        ["Layer", "Role"],
+        ["taleem-core", "Schema for JSON"],
+        ["taleem-slides", "Render \u2013 JSON to HTML"],
+        ["taleem-browser", "Index-based presentations"],
+        ["taleem-player", "Time-based presentations"]
       ]
     },
     // 11 statistic

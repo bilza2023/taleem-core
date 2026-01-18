@@ -1,6 +1,6 @@
 {
   "name": "taleem-core",
-  "version": "1.4.0-rc.1",
+  "version": "1.4.2",
   "type": "module",
   "description": "Schema and Golden-Deck for Taleem (UI-agnostic)",
 
