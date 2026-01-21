@@ -1,9 +1,13 @@
 
 # `taleem-core`
 
+**Status:** Stable
+**API Version:** 1.0.0
+**Deck Schema:** `deck-v1` (frozen)
+
 `taleem-core` is part of the **Taleem** project.
 
-**Taleem** is a system that converts **simple JSON** into **clean educational slides**.
+**Taleem** is a system that converts **Taleem JSON** into **clean educational slides**.
 
 👉 Demo & docs:
 [https://bilza2023.github.io/taleem/](https://bilza2023.github.io/taleem/)
@@ -12,7 +16,7 @@
 
 ## What is this package?
 
-`taleem-core` contains **only two things**:
+`taleem-core` contains **only the permanent foundations** of Taleem:
 
 1. The **schema** that defines what a valid Taleem slide deck looks like
 2. One **golden reference deck** that represents the full slide language
@@ -71,6 +75,93 @@ If the golden deck passes validation, the schema is correct.
 
 ---
 
+## Public API (exports)
+
+`taleem-core@1.5.0` exposes a **small, stable, frozen API**.
+
+These exports are **guaranteed not to break** within `deck-v1`.
+📘 **Full schema reference:**  
+See [`docs/api.md`](./docs/api.md) for the complete `deck-v1` language specification.
+
+### Schema
+
+```js
+import { zodDeckV1 } from "taleem-core";
+```
+
+The canonical Zod schema that defines a valid Taleem deck.
+
+---
+
+### Validation
+
+```js
+import { validateDeckV1 } from "taleem-core";
+```
+
+Validates a deck against `deck-v1`.
+Returns a success or detailed validation errors.
+
+---
+
+### Helpers (introspection only)
+
+```js
+import { hasBackground, isEmptyDeck } from "taleem-core";
+```
+
+Small, pure helpers for inspecting a deck.
+No rendering or side effects.
+
+---
+
+### Golden reference
+
+```js
+import { goldenDeckV1 } from "taleem-core";
+```
+
+A complete, valid reference deck that uses the full slide language.
+
+If this deck validates successfully, the schema is correct.
+
+---
+
+## Supported slide types (v1 – frozen)
+
+`taleem-core` defines a **finite, stable slide language**.
+
+These slide type names are **part of the public contract** and will **never change** in `deck-v1`:
+
+* `titleSlide`
+* `titleAndSubtitle`
+* `titleAndPara`
+* `bulletList`
+* `twoColumnText`
+* `imageSlide`
+* `imageWithTitle`
+* `imageWithCaption`
+* `imageLeftBulletsRight`
+* `imageRightBulletsLeft`
+* `table`
+* `statistic`
+* `donutChart`
+* `bigNumber`
+* `barChart`
+* `quoteSlide`
+* `quoteWithImage`
+* `cornerWordsSlide`
+* `contactSlide`
+* `fillImage`
+* `eq`
+
+These layouts represent **core presentation primitives** and are sufficient for the vast majority of educational and professional decks.
+
+New visuals or behaviors may evolve in players,
+but **these names and their meaning are fixed**.
+
+---
+
 ## The golden deck
 
 The golden deck is the **reference example** of Taleem.
@@ -100,8 +191,8 @@ Only change `taleem-core` if:
 
 * the schema itself is wrong
 * a rule is clearly incorrect
-* a new deck version is intentionally introduced
+* a new deck version is intentionally introduced (e.g. `deck-v2`)
 
 Otherwise: **leave it alone**.
 
-
+---
