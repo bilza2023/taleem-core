@@ -4315,16 +4315,6 @@ function validateDeckV1(deck) {
   return r.success ? { ok: true, value: r.data } : { ok: false, errors: r.error.issues };
 }
 
-// src/deck/hasBackground.js
-function hasBackground(deck) {
-  return !!deck?.background;
-}
-
-// src/deck/isEmptyDeck.js
-function isEmptyDeck(deck) {
-  return !Array.isArray(deck?.deck) || deck.deck.length === 0;
-}
-
 // src/deck/slideTypesV1.js
 var SLIDE_TYPES_V1 = [
   "titleSlide",
@@ -4615,8 +4605,6 @@ var goldenDeckV1 = {
 export {
   SLIDE_TYPES_V1,
   goldenDeckV1,
-  hasBackground,
-  isEmptyDeck,
   validateDeckV1,
   zodDeckV1
 };

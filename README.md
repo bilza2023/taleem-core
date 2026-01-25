@@ -1,16 +1,15 @@
-
 # `taleem-core`
 
-**Status:** Stable
-**API Version:** 1.0.0
+**Status:** Stable  
+**API Version:** 1.5.1  
 **Deck Schema:** `deck-v1` (frozen)
 
 `taleem-core` is part of the **Taleem** project.
 
 **Taleem** is a system that converts **Taleem JSON** into **clean educational slides**.
 
-👉 Demo & docs:
-[https://bilza2023.github.io/taleem/](https://bilza2023.github.io/taleem/)
+👉 Demo & docs:  
+https://bilza2023.github.io/taleem/
 
 ---
 
@@ -18,8 +17,8 @@
 
 `taleem-core` contains **only the permanent foundations** of Taleem:
 
-1. The **schema** that defines what a valid Taleem slide deck looks like
-2. One **golden reference deck** that represents the full slide language
+1. The **schema** that defines what a valid Taleem slide deck looks like  
+2. One **golden reference deck** that represents the slide language  
 
 That’s it.
 
@@ -33,11 +32,11 @@ This package answers just one question:
 
 `taleem-core` does **not**:
 
-* render slides
-* play slides
-* animate slides
-* deal with time, audio, UI, or browsers
-* show anything on screen
+- render slides  
+- play slides  
+- animate slides  
+- deal with time, audio, UI, or browsers  
+- show anything on screen  
 
 If something runs, draws, or plays — it does **not** belong here.
 
@@ -49,15 +48,15 @@ If something runs, draws, or plays — it does **not** belong here.
 
 Most users will:
 
-* use the Taleem demo
-* use a player or browser built on top of Taleem
-* never touch `taleem-core` directly
+- use the Taleem demo
+- use a player or browser built on top of Taleem
+- never touch `taleem-core` directly
 
 This package exists mainly for:
 
-* internal correctness
-* validation
-* documentation of the slide language
+- internal correctness
+- validation
+- documentation of the slide language
 
 If you’re curious, you can read it.
 
@@ -67,9 +66,9 @@ If you’re curious, you can read it.
 
 `taleem-core` provides:
 
-* a **Zod schema** for Taleem decks
-* definitions for all supported slide types
-* a single **golden deck** that validates successfully
+- a **Zod schema** for Taleem decks
+- definitions for all declared slide types
+- a single **golden deck** that validates successfully
 
 If the golden deck passes validation, the schema is correct.
 
@@ -77,17 +76,15 @@ If the golden deck passes validation, the schema is correct.
 
 ## Public API (exports)
 
-`taleem-core@1.5.0` exposes a **small, stable, frozen API**.
+`taleem-core@1.x` exposes a **small, stable, frozen API**.
 
 These exports are **guaranteed not to break** within `deck-v1`.
-📘 **Full schema reference:**  
-See [`docs/api.md`](./docs/api.md) for the complete `deck-v1` language specification.
 
 ### Schema
 
 ```js
 import { zodDeckV1 } from "taleem-core";
-```
+````
 
 The canonical Zod schema that defines a valid Taleem deck.
 
@@ -100,18 +97,7 @@ import { validateDeckV1 } from "taleem-core";
 ```
 
 Validates a deck against `deck-v1`.
-Returns a success or detailed validation errors.
-
----
-
-### Helpers (introspection only)
-
-```js
-import { hasBackground, isEmptyDeck } from "taleem-core";
-```
-
-Small, pure helpers for inspecting a deck.
-No rendering or side effects.
+Returns a success result or detailed validation errors.
 
 ---
 
@@ -121,7 +107,7 @@ No rendering or side effects.
 import { goldenDeckV1 } from "taleem-core";
 ```
 
-A complete, valid reference deck that uses the full slide language.
+A complete, valid reference deck that represents the Taleem slide language.
 
 If this deck validates successfully, the schema is correct.
 
@@ -131,7 +117,7 @@ If this deck validates successfully, the schema is correct.
 
 `taleem-core` defines a **finite, stable slide language**.
 
-These slide type names are **part of the public contract** and will **never change** in `deck-v1`:
+These slide type names are **part of the public contract** and will **not change** within `deck-v1`:
 
 * `titleSlide`
 * `titleAndSubtitle`
@@ -155,10 +141,26 @@ These slide type names are **part of the public contract** and will **never chan
 * `fillImage`
 * `eq`
 
-These layouts represent **core presentation primitives** and are sufficient for the vast majority of educational and professional decks.
+These layouts represent **core presentation primitives**.
 
-New visuals or behaviors may evolve in players,
-but **these names and their meaning are fixed**.
+Players and browsers decide how (or whether) to render them.
+
+---
+
+### ⚠️ Note on `eq` slide type
+
+The `eq` slide type is **declared but not supported in v1 players**.
+
+It exists to reserve the name and schema space for future versions, but:
+
+* it is **not rendered** in current Taleem players
+* it should **not be generated or used in production decks**
+* no math engine (KaTeX / MathJax) is included in v1
+
+Treat `eq` as **intentionally inactive** in `deck-v1`.
+
+Support for equations and math slides may be introduced in a future version
+or as a separate product.
 
 ---
 
@@ -166,9 +168,9 @@ but **these names and their meaning are fixed**.
 
 The golden deck is the **reference example** of Taleem.
 
-* It uses all supported slide types
-* It follows the rules correctly
-* It represents the full language
+* It uses all **actively supported** slide types
+* It follows the schema correctly
+* It represents the intended slide language
 
 If something breaks in a browser or player **but this deck is valid**:
 
@@ -195,4 +197,3 @@ Only change `taleem-core` if:
 
 Otherwise: **leave it alone**.
 
----
